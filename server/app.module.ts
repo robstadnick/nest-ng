@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { AngularUniversalModule } from '@nestjs/ng-universal';
 import { join } from 'path';
-// import { AuthModule } from './auth/auth.module';
-// import { DatabaseModule } from './database/database.module';
+import { DatabaseModule } from './database/database.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './auth/users/user.module';
 
 @Module({
   imports: [
@@ -11,8 +12,9 @@ import { join } from 'path';
       bundle: require('../server/main'),
       liveReload: true
     }),
-    // AuthModule,
-    // DatabaseModule
+    AuthModule,
+    DatabaseModule,
+    UserModule
   ],
   providers: []
 })

@@ -1,25 +1,27 @@
-// import { Injectable } from '@nestjs/common';
+import { Sequelize } from 'sequelize-typescript';
+import { databaseConfig } from './config/database.config';
+// import { User } from '../users/user.entity';
 
-// import { Sequelize } from 'sequelize-typescript';
-import { Sequelize } from 'sequelize';
-// import { Todo } from '../todos/entity/todo.entity';
+export const databaseProvider = {
+    provide: 'SequelizeInstance',
+    useFactory: () => {
+        let config;
+        console.log(process.env.NODE_ENV);
+    
+        switch (process.env.NODE_ENV) {
+            case 'prod':
+            case 'production':
+                config = databaseConfig.production;
+            case 'dev':
+            case 'development':
+                config = databaseConfig.development;
+            default:
+                config = databaseConfig.development;
+        }
 
-// @Injectable()
-export const databaseProviders = [
-    {
-        provide: 'SequelizeToken',
-        useFactory: async () => {
-            const sequelize = new Sequelize({
-              dialect: 'postgres',
-              host: process.env.DB_V1_HOST,
-              port: 5432,
-              username: process.env.DB_V1_USERNAME,
-              password: process.env.DB_V1_PASWORD,
-              database: process.env.DB_V1_DATABASE
-            });
-            // sequelize.addModels([__dirname + '/../**/*.entity.ts']);
-            // sequelize.addModels([Todo]);
-            return sequelize;
-        },
-    },
-];
+        const sequelize = new Sequelize(config);
+        // sequelize.addModels([User]);
+        /* await sequelize.sync(); add this if you want to sync model and DB.*/
+        return sequelize;
+    }
+};
