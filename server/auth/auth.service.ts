@@ -1,71 +1,75 @@
 import { Injectable } from '@nestjs/common';
-
-// const bcrypt = require('bcrypt');
-import { bcrypt } from 'bcryptjs'
+import * as crypto from 'crypto'
+// import * as bcrypt from 'bcryptjs'
 import { jwt } from 'jsonwebtoken'
+import { User } from '../database/models/users/user.model';
 // import { db } from '../../../database/database'
 
 
 @Injectable()
 export class AuthService {
+    private generateIntercomHash(email) {
+        const intercomHashSecret = 'b4r357DOOBeqYY3QJ_DFW64XG0D2-ImjhkZWkvcw'
+        const hash = crypto.createHmac('SHA256', intercomHashSecret).update(email).digest('hex');
+        return hash;
+    }
 
- 
-    // /**
-    //  * Generates jwt token for authentication
-    //  * @param {string} id User's id stored in the database
-    //  * @param {string} email User's email stored in the database
-    //  * @returns {string} jwt token
-    //  */
-    // generateAuthToken(user) {
-    //     const roles = [];
-    //     if (user.user_roles) {
-    //         user.user_roles.forEach(r => {
-    //             roles.push(r.role);
-    //         });
-    //     } else {
-    //         roles.push(user.role);
-    //     }
-    //     return jwt.sign({
-    //         id: user.id,
-    //         email: user.email,
-    //         first_name: user.first_name,
-    //         last_name: user.last_name,
-    //         is_employee: user.is_employee,
-    //         role: roles,
-    //         broker: user.broker,
-    //         broker_code: user.broker_code,
-    //         rid: user.quickbase_rid,
-    //     }, process.env.JWT_SECRET, { expiresIn: '1 days' });
-    //     // }, process.env.JWT_SECRET, { expiresIn: 10 });
-    // }
+    /**
+     * Generates jwt token for authentication
+     * @param {string} id User's id stored in the database
+     * @param {string} email User's email stored in the database
+     * @returns {string} jwt token
+     */
+    generateAuthToken(user: User) {
+        const roles = [] as string[]
+        if (user.user_roles) {
+            user.user_roles.forEach(r => {
+                roles.push(r.role);
+            });
+        } else {
+            roles.push(user.role);
+        }
+        return jwt.sign({
+            id: user.id,
+            email: user.email,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            is_employee: user.is_employee,
+            role: roles,
+            broker: user.broker,
+            broker_code: user.broker_code,
+            rid: user.quickbase_rid,
+        }, process.env.JWT_SECRET, { expiresIn: '1 days' });
+        // }, process.env.JWT_SECRET, { expiresIn: 10 });
+    }
 
-    // /**
-    //  * Generates refresh jwt token for authentication
-    //  * @param {string} id User's id stored in the database
-    //  * @param {string} email User's email stored in the database
-    //  * @returns {string} jwt token
-    //  */
-    // generateRefreshToken(user) {
-    //     const roles = [];
-    //     if (user.user_roles) {
-    //         user.user_roles.forEach(r => {
-    //             roles.push(r.role);
-    //         });
-    //     } else {
-    //         roles.push(user.role);
-    //     }
-    //     return jwt.sign({
-    //         id: user.id,
-    //         email: user.email,
-    //         first_name: user.first_name,
-    //         last_name: user.last_name,
-    //         is_employee: user.is_employee,
-    //         role: roles,
-    //         broker: user.broker,
-    //         broker_code: user.broker_code,
-    //         rid: user.quickbase_rid
-    //     }, process.env.JWT_SECRET, { expiresIn: 60 });
-    // }
+    /**
+     * Generates refresh jwt token for authentication
+     * @param {string} id User's id stored in the database
+     * @param {string} email User's email stored in the database
+     * @returns {string} jwt token
+     */
+    generateRefreshToken(user) {
+        const roles = [];
+        if (user.user_roles) {
+            user.user_roles.forEach(r => {
+                roles.push(r.role);
+            });
+        } else {
+            roles.push(user.role);
+        }
+        return jwt.sign({
+            id: user.id,
+            email: user.email,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            is_employee: user.is_employee,
+            role: roles,
+            broker: user.broker,
+            broker_code: user.broker_code,
+            rid: user.quickbase_rid
+        }, process.env.JWT_SECRET, { expiresIn: 60 });
+    }
 
     // validate(token) {
     //     const RemoveBearer = token.replace('Bearer access-token-', ''); // TODO: I think I'll need to add the code below
@@ -232,11 +236,11 @@ export class AuthService {
  * @param {boolean} isUpdate Set to true when updating a user
  * @returns {String | Promise} hashed password
  */
-    hashPassword(password, isUpdate = false) {
-        const saltRounds = bcrypt.genSaltSync(9);
-        if (isUpdate) { return bcrypt.hashSync(password, saltRounds); }
-        return bcrypt.hash(password, saltRounds);
-    }
+    // hashPassword(password, isUpdate = false) {
+    //     const saltRounds = bcrypt.genSaltSync(9);
+    //     if (isUpdate) { return bcrypt.hashSync(password, saltRounds); }
+    //     return bcrypt.hash(password, saltRounds);
+    // }
 
     generateUserObject({
         id,

@@ -1,13 +1,13 @@
 import * as jwt from 'jsonwebtoken';
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { MessageCodeError } from '../../errors';
-import { User } from '../users/user.entity';
+import { User } from '../../database/models/users/user.model';
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
     public async use(req, res, next) {
-        if (req.headers.authorization && (req.headers.authorization as string).split(' ')[0] === 'Bearer') {
-            const token = (req.headers.authorization as string).split(' ')[1];
+        if (req.headers.authorization && (req.headers.authorization as string)) {
+            const token = (req.headers.authorization as string).replace('Bearer access-token-', '')
             const decoded: any = jwt.verify(token, process.env.JWT_KEY || '');
             const user = await User.findOne<User>({
                 where: {

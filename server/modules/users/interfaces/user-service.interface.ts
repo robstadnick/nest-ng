@@ -1,11 +1,10 @@
-import { User } from '../user.entity';
-import { IUser } from './index';
+import { User } from '../../../database/models/users/user.model';
 
 export interface IUserService {
     findAll(): Promise<Array<User>>;
     findById(id: number): Promise<User | null>;
     findOne(options: Object): Promise<User | null>;
-    create(user: IUser): Promise<User>;
-    update(id: number, newValue: IUser): Promise<User | null>;
+    create(user: User): Promise<User>;
+    update(user: User): Promise<User | null>;
     delete(id: number): Promise<void>;
 }

@@ -3,7 +3,7 @@ import { AngularUniversalModule } from '@nestjs/ng-universal';
 import { join } from 'path';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
-import { UserModule } from './auth/users/user.module';
+import { UserModule } from './modules/users/user.module';
 
 @Module({
   imports: [

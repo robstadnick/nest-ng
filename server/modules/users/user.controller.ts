@@ -4,7 +4,10 @@ import { MessageCodeError } from '../../errors';
 
 @Controller('users')
 export class UserController {
-    constructor(private readonly usersService: UserService) {}
+
+    constructor(private readonly usersService: UserService) {
+    }
+
 
     @Get()
     public async index(@Res() res) {
@@ -34,7 +37,7 @@ export class UserController {
     public async update(@Body() body, @Param('id') id: number, @Res() res) {
         if (!id) { throw new MessageCodeError('user:update:missingId'); }
 
-        await this.usersService.update(id, body);
+        await this.usersService.update(body);
         return res.status(HttpStatus.OK).send();
     }
 

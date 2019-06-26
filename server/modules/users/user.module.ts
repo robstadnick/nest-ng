@@ -2,14 +2,17 @@ import { Module, RequestMethod } from '@nestjs/common';
 import { MiddlewareConsumer } from '@nestjs/common/interfaces/middleware';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
-import { usersProvider } from './user.provider';
-import { AuthMiddleware } from '../middleware/auth.middleware';
+import { AuthMiddleware } from '../../auth/middleware/auth.middleware';
 import { DatabaseModule } from '../../database/database.module';
+import { userProviders } from './user.provider';
 
 @Module({
     imports: [DatabaseModule],
     controllers: [UserController],
-    providers: [UserService, usersProvider]
+    providers: [
+        UserService,
+        ...userProviders
+    ]
 })
 export class UserModule {
     public configure(consumer: MiddlewareConsumer) {
@@ -17,9 +20,9 @@ export class UserModule {
             .apply(AuthMiddleware)
             .forRoutes(
                 { path: '/users', method: RequestMethod.GET },
-                { path: '/users/:id', method: RequestMethod.GET },
-                { path: '/users/:id', method: RequestMethod.PUT },
-                { path: '/users/:id', method: RequestMethod.DELETE }
+                // { path: '/users/:id', method: RequestMethod.GET },
+                // { path: '/users/:id', method: RequestMethod.PUT },
+                // { path: '/users/:id', method: RequestMethod.DELETE }
             );
     }
 }
