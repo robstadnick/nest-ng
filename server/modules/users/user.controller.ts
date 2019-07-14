@@ -5,13 +5,14 @@ import { MessageCodeError } from '../../errors';
 @Controller('users')
 export class UserController {
 
-    constructor(private readonly usersService: UserService) {
+    constructor(
+        private readonly _userService: UserService
+        ) {
     }
-
 
     @Get()
     public async index(@Res() res) {
-        const users = await this.usersService.findAll();
+        const users = await this._userService.findAll();
         return res.status(HttpStatus.OK).json(users);
     }
 
@@ -21,7 +22,7 @@ export class UserController {
             throw new MessageCodeError('user:create:missingInformation');
         }
 
-        await this.usersService.create(body);
+        await this._userService.create(body);
         return res.status(HttpStatus.CREATED).send();
     }
 
@@ -29,7 +30,7 @@ export class UserController {
     public async show(@Param('id') id: number, @Res() res) {
         if (!id) { throw new MessageCodeError('user:show:missingId'); }
 
-        const user = await this.usersService.findById(id);
+        const user = await this._userService.findById(id);
         return res.status(HttpStatus.OK).json(user);
     }
 
@@ -37,15 +38,15 @@ export class UserController {
     public async update(@Body() body, @Param('id') id: number, @Res() res) {
         if (!id) { throw new MessageCodeError('user:update:missingId'); }
 
-        await this.usersService.update(body);
+        await this._userService.updateSingleUser(body);
         return res.status(HttpStatus.OK).send();
     }
 
-    @Delete(':id')
-    public async delete(@Param('id') id: number, @Res() res) {
-        if (!id) { throw new MessageCodeError('user:delete:missingId'); }
+    // @Delete(':id')
+    // public async delete(@Param('id') id: number, @Res() res) {
+    //     if (!id) { throw new MessageCodeError('user:delete:missingId'); }
 
-        await this.usersService.delete(id);
-        return res.status(HttpStatus.OK).send();
-    }
+    //     await this._userService.delete(id);
+    //     return res.status(HttpStatus.OK).send();
+    // }
 }

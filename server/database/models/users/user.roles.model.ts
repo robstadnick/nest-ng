@@ -12,13 +12,13 @@ import {
     BelongsTo
 } from 'sequelize-typescript';
 import { MessageCodeError } from '../../../errors';
-import { User } from './user.model';
+import { ModelUser } from './user.model';
 
 
 @Table({
     tableName: "user_roles",
 })
-export class UserRoles extends Model<UserRoles> {
+export class ModelUserRoles extends Model<ModelUserRoles> {
 
     @Column({
         type: DataType.BIGINT,
@@ -33,7 +33,7 @@ export class UserRoles extends Model<UserRoles> {
 
     @UpdatedAt public updatedAt: Date;
 
-    @ForeignKey(() => User)
+    @ForeignKey(() => ModelUser)
     @Column({
         type: DataType.CHAR,
         allowNull: false
@@ -42,18 +42,12 @@ export class UserRoles extends Model<UserRoles> {
 
     @Column({
         type: DataType.CHAR,
-        allowNull: false
-    })
-    public broker_code: string;
-
-    @Column({
-        type: DataType.CHAR,
         allowNull: false,
     })
     public role: string;
 
-    @BelongsTo(() => User)
-    users: User;
+    @BelongsTo(() => ModelUser)
+    users: ModelUser;
     // @BeforeValidate
     // public static validateData(user: User, options: any) {
     //     if (!options.transaction) { throw new Error('Missing transaction.'); }

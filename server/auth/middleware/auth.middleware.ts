@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { MessageCodeError } from '../../errors';
-import { User } from '../../database/models/users/user.model';
+import { ModelUser } from '../../database/models/users/user.model'
 
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
@@ -9,7 +9,7 @@ export class AuthMiddleware implements NestMiddleware {
         if (req.headers.authorization && (req.headers.authorization as string)) {
             const token = (req.headers.authorization as string).replace('Bearer access-token-', '')
             const decoded: any = jwt.verify(token, process.env.JWT_KEY || '');
-            const user = await User.findOne<User>({
+            const user = await ModelUser.findOne<ModelUser>({
                 where: {
                     id: decoded.id,
                     email: decoded.email

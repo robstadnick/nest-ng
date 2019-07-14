@@ -11,14 +11,13 @@ import {
     HasMany
 } from 'sequelize-typescript';
 import { MessageCodeError } from '../../../errors';
-
 import * as bcrypt from 'bcryptjs';
-import { UserRoles } from './user.roles.model';
+import { ModelUserRoles } from './user.roles.model';
 
 @Table({
     tableName: 'users',
 })
-export class User extends Model<User> {
+export class ModelUser extends Model<ModelUser> {
 
     @Column({
         type: DataType.BIGINT,
@@ -57,7 +56,7 @@ export class User extends Model<User> {
         validate: {
             isEmail: true,
             isUnique: async (value: string, next: Function): Promise<any> => {
-                const isExist = await User.findOne({ where: { email: value } });
+                const isExist = await ModelUser.findOne({ where: { email: value } });
                 if (isExist) {
                     const error = new MessageCodeError('user:create:emailAlreadyExist');
                     next(error);
@@ -123,11 +122,11 @@ export class User extends Model<User> {
     })
     public archived: boolean
 
-    @HasMany(() => UserRoles)
-    user_roles: UserRoles[]
+    @HasMany(() => ModelUserRoles)
+    user_roles: ModelUserRoles[]
 
     @BeforeValidate
-    public static validateData(user: User, options: any) {
+    public static validateData(user: ModelUser, options: any) {
         // if (!options.transaction) { throw new Error('Missing transaction.'); }
         if (!user.first_name) { throw new MessageCodeError('user:create:missingFirstName'); }
         if (!user.last_name) { throw new MessageCodeError('user:create:missingLastName'); }
@@ -136,7 +135,7 @@ export class User extends Model<User> {
     }
 
     @BeforeCreate
-    public static async hashPassword(user: User) {
+    public static async hashPassword(user: ModelUser) {
         // if (!options.transaction) { throw new Error('Missing transaction.'); 
         const saltRounds = bcrypt.genSaltSync(13);
         const isUpdate = false;
