@@ -7,7 +7,9 @@ import { DatabaseModule } from '../../database/database.module';
 import { userProviders } from './user.provider';
 
 @Module({
-    imports: [DatabaseModule],
+    imports: [
+        DatabaseModule
+    ],
     controllers: [UserController],
     providers: [
         UserService,

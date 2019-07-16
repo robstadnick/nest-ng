@@ -1,4 +1,4 @@
-import { ModelUser } from "../../database/models/users/user.model";
+// import { ModelUser } from "../../database/models/users/user.model";
 
 
 export interface DTOSetPassword {
@@ -9,7 +9,7 @@ export interface DTOSetPassword {
 }
 
 export interface DTOPasswordResetURL {
-    user: ModelUser;
+    user: any;
     url: string;
 }
 

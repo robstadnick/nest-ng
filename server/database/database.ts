@@ -1,5 +1,4 @@
 import { Sequelize } from 'sequelize-typescript';
-import { Op } from 'sequelize';
 import { models } from './models/models'
 // import { databaseConfig } from './config/database.config';
 
@@ -14,7 +13,6 @@ export const databaseProvider = [
                 dialectOptions: {
                     ssl: true
                 },
-                operatorsAliases: Op,
                 replication: {
                     read: [
                         {
@@ -39,17 +37,6 @@ export const databaseProvider = [
                     connectRetries: 5,
                 },
             };
-            // console.log(process.env.NODE_ENV);
-            // switch (process.env.NODE_ENV) {
-            //     case 'prod':
-            //     case 'production':
-            //         config = databaseConfig.production;
-            //     case 'dev':
-            //     case 'development':
-            //         config = databaseConfig.development;
-            //     default:
-            //         config = databaseConfig.development;
-            // }
 
             const sequelize = new Sequelize(config);
             await sequelize.addModels(models);

@@ -7,7 +7,7 @@ export class UserController {
 
     constructor(
         private readonly _userService: UserService
-        ) {
+    ) {
     }
 
     @Get()
@@ -21,7 +21,6 @@ export class UserController {
         if (!body || (body && Object.keys(body).length === 0)) {
             throw new MessageCodeError('user:create:missingInformation');
         }
-
         await this._userService.create(body);
         return res.status(HttpStatus.CREATED).send();
     }

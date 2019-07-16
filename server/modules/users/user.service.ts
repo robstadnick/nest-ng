@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { MessageCodeError } from '../../errors';
-import { IUserService } from './interfaces/user-service.interface';
+// import { IUserService } from './interfaces/user-service.interface';
 import { FindOptions } from 'sequelize/types';
 import { ModelUser } from '../../database/models/users/user.model';
 
