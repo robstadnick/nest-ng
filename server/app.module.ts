@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { AngularUniversalModule } from '@nestjs/ng-universal';
 import { join } from 'path';
-import { DatabaseModule } from './database/database.module';
-import { AuthModule } from './auth/auth.module';
+import { MongooseModule } from '@nestjs/mongoose';
+// import { AuthModule } from './auth/auth.module';
 import { UserModule } from './modules/users/user.module';
+// import { MongoDatabaseModule } from './mongo/mongo-database.module';
 
 const domino = require('domino');
 const win = domino.createWindow();
@@ -23,10 +24,12 @@ global['getItem'] = undefined;
       bundle: require('../server/main'),
       liveReload: true
     }),
-    AuthModule,
-    DatabaseModule,
+
+    MongooseModule.forRoot(process.env.MONGO_URI, { useNewUrlParser: true }),
+    // MongoDatabaseModule,
+    // AuthModule,
     UserModule
   ],
   providers: []
 })
-export class ApplicationModule {}
+export class ApplicationModule { }

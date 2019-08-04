@@ -5,7 +5,7 @@ import * as jwt from 'jsonwebtoken'
 // import { ModelUser } from '../database/models/users/user.model';
 import { UserService } from '../modules/users/user.service';
 import { DTOPasswordResetURL, DTOSetPassword, JWTObject } from './interfaces/auth.dto';
-import { ModelUser } from '../database/models/users/user.model';
+import { ModelUser } from '../modules/users/interfaces/user.model';
 // import { ModelUserRoles } from '../database/models/users/user.roles.model';
 
 @Injectable()
@@ -23,13 +23,9 @@ export class AuthService {
      */
     generateAuthToken(user: ModelUser) {
         const roles = [] as string[]
-        if (user.user_roles) {
-            user.user_roles.forEach(r => {
-                roles.push(r.role);
-            });
-        } else {
-            roles.push(user.role);
-        }
+        user.user_roles.forEach(r => {
+            roles.push(r.role);
+        });
         return jwt.sign({
             id: user.id,
             email: user.email,
@@ -137,9 +133,9 @@ export class AuthService {
         if (!user) {
             throw new NotFoundException(`User with email ${email} not found`);
         }
-        if (user.archived === true) {
-            throw new UnauthorizedException('This user is not Authorized');
-        }
+        // if (user.archived === true) {
+        //     throw new UnauthorizedException('This user is not Authorized');
+        // }
         return bcrypt.compare(password, user.password)
             .then((isMatch) => {
                 if (!isMatch) {

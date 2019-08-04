@@ -21,5 +21,6 @@ async function bootstrap() {
   app.use(helmet());
   app.setGlobalPrefix('api');
   await app.listen(port);
+  console.log('Started Server on Port ', port);
 }
 bootstrap();
