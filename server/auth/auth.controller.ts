@@ -9,7 +9,7 @@ export class AuthController {
     constructor(
         // tslint:disable-next-line: variable-name
         private _authService: AuthService,
-        // private _userService: UserService
+        private _userService: UserService
     ) { }
 
     @Post('sign-in')
@@ -40,16 +40,16 @@ export class AuthController {
         return res.status(200).json(success)
     }
 
-    // @Post('request-pass')
-    // async forgotPass(@Body() body, @Req() req, @Res() res) {
-    //     const user = await this._userService.findOne({ where: { email: body.email } });
-    //     if (!user) {
-    //         throw new NotFoundException(`User with email ${body.email} not found`);
-    //     }
-    //     const reset = await this._authService.passwordResetToken(user, req);
-    //     const sent = await this._authService.sendResetEmailMailGun(reset.user, reset.url);
-    //     return res.status(200).json(sent)
-    // }
+    @Post('request-pass')
+    async forgotPass(@Body() body, @Req() req, @Res() res) {
+        const user = await this._userService.findOne({ where: { email: body.email } });
+        if (!user) {
+            throw new NotFoundException(`User with email ${body.email} not found`);
+        }
+        const reset = await this._authService.passwordResetToken(user, req);
+        const sent = await this._authService.sendResetEmailMailGun(reset.user, reset.url);
+        return res.status(200).json(sent)
+    }
 
     @Post('set-pass')
     async setPasswordQ(@Body() body: DTOSetPassword, @Res() res) {

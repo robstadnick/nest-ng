@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, NotImplementedException } from '@nestjs/common';
 import { MessageCodeError } from '../../errors';
 // import { IUserService } from './interfaces/user-service.interface';
 import { ModelUser } from './interfaces/user.model';
@@ -20,7 +20,7 @@ export class UserService {
         return await this.userModel.findOne(options);
     }
 
-    public async findById(id: number): Promise<ModelUser | null> {
+    public async findById(id: string): Promise<ModelUser | null> {
         return await this.userModel.findById(id);
     }
 
@@ -29,13 +29,18 @@ export class UserService {
         return await newUser.save();
     }
 
-    public async updateSingleUser(user: ModelUser): Promise<ModelUser | null> {
-        const uuser = await this.userModel.update(user, {
-            where: { id: user.id },
-            returning: true,
-        });
-        const updatedUser = uuser[1][0];
-        return updatedUser;
+    public async updateSingleUser(id: string, user: ModelUser): Promise<ModelUser | null> {
+        try {
+            const User = await this.userModel.findById(id);
+            User.last_name = user.last_name;
+            User.first_name = user.first_name;
+            User.addresses = user.addresses;
+            User.user_roles = user.user_roles;
+            User.save();
+            return Promise.resolve(User);
+        } catch (error) {
+            throw new NotImplementedException(error);
+        }
     }
 
 }

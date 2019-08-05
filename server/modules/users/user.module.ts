@@ -5,7 +5,6 @@ import { UserService } from './user.service';
 import { AuthMiddleware } from '../../auth/middleware/auth.middleware';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { UserSchema, ModelUser } from './interfaces/user.model';
-import { userProviders } from './user.providers';
 
 @Module({
     imports: [
@@ -13,7 +12,9 @@ import { userProviders } from './user.providers';
             { name: 'USER_MODEL', schema: UserSchema },
         ]),
     ],
-    controllers: [UserController],
+    controllers: [
+        UserController,
+    ],
     providers: [
         // ...userProviders,
         UserService,
@@ -23,14 +24,14 @@ import { userProviders } from './user.providers';
     ]
 })
 export class UserModule {
-    public configure(consumer: MiddlewareConsumer) {
-        consumer
-            .apply(AuthMiddleware)
-            .forRoutes(
-                { path: '/users', method: RequestMethod.GET },
-                { path: '/users/:id', method: RequestMethod.GET },
-                { path: '/users/:id', method: RequestMethod.PUT },
-                { path: '/users/:id', method: RequestMethod.DELETE }
-            );
-    }
+    // public configure(consumer: MiddlewareConsumer) {
+    //     consumer
+    //         .apply(AuthMiddleware)
+    //         .forRoutes(
+    //             { path: '/users', method: RequestMethod.GET },
+    //             { path: '/users/:id', method: RequestMethod.GET },
+    //             { path: '/users/:id', method: RequestMethod.PUT },
+    //             { path: '/users/:id', method: RequestMethod.DELETE }
+    //         );
+    // }
 }

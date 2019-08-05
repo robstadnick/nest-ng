@@ -26,23 +26,21 @@ export class UserController {
     }
 
     @Get(':id')
-    public async show(@Param('id') id: number, @Res() res) {
+    public async show(@Param('id') id: string, @Res() res) {
         if (!id) { throw new MessageCodeError('user:show:missingId'); }
-
         const user = await this._userService.findById(id);
         return res.status(HttpStatus.OK).json(user);
     }
 
     @Put(':id')
-    public async update(@Body() body, @Param('id') id: number, @Res() res) {
+    public async update(@Body() body, @Param('id') id: string, @Res() res) {
         if (!id) { throw new MessageCodeError('user:update:missingId'); }
-
-        await this._userService.updateSingleUser(body);
+        await this._userService.updateSingleUser(id, body);
         return res.status(HttpStatus.OK).send();
     }
 
     // @Delete(':id')
-    // public async delete(@Param('id') id: number, @Res() res) {
+    // public async delete(@Param('id') id: string, @Res() res) {
     //     if (!id) { throw new MessageCodeError('user:delete:missingId'); }
 
     //     await this._userService.delete(id);
