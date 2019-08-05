@@ -9,7 +9,9 @@ import * as forceSsl from 'force-ssl-heroku';
 import * as fileupload from 'express-fileupload';
 import * as helmet from 'helmet';
 
-enableProdMode();
+if (process.env.NODE_ENV === 'production') {
+  enableProdMode();
+}
 
 async function bootstrap() {
   const app = await NestFactory.create(ApplicationModule);

@@ -19,17 +19,18 @@ import { userProviders } from './user.providers';
         UserService,
     ],
     exports: [
+        UserService
     ]
 })
 export class UserModule {
-    // public configure(consumer: MiddlewareConsumer) {
-    //     consumer
-    //         .apply(AuthMiddleware)
-    //         .forRoutes(
-    //             { path: '/users', method: RequestMethod.GET },
-    //             { path: '/users/:id', method: RequestMethod.GET },
-    //             { path: '/users/:id', method: RequestMethod.PUT },
-    //             { path: '/users/:id', method: RequestMethod.DELETE }
-    //         );
-    // }
+    public configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(AuthMiddleware)
+            .forRoutes(
+                { path: '/users', method: RequestMethod.GET },
+                { path: '/users/:id', method: RequestMethod.GET },
+                { path: '/users/:id', method: RequestMethod.PUT },
+                { path: '/users/:id', method: RequestMethod.DELETE }
+            );
+    }
 }

@@ -8,7 +8,7 @@
 //     {
 //         provide: 'DATABASE_CONNECTION',
 //         useFactory: async () => {
-//             return mongoose.createConnection(``, { useNewUrlParser: true })
+//             return mongoose.createConnection(process.env.MONGO_URI, { useNewUrlParser: true })
 //             .then((con) => {
 //                 return con;
 //             })
