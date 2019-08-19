@@ -17,9 +17,9 @@
     "lib": [
       "es2018",
       "dom"
-    ],
-    "exclude": [
-      "server/**/*.ts"
     ]
-  }
+  },
+  "exclude": [
+    "server/**/*.ts"
+  ]
 }
