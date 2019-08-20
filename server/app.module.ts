@@ -24,8 +24,14 @@ global['getItem'] = undefined;
     MongoDatabaseModule,
     AuthModule,
     UserModule,
-    // TODO: UNCOMMENT TO VIEW ISSUE
     // AngularModule.asyncAfterLoad() // Contains AngularUniversalModule.forRoot()
+    //
+    // TODO: UNCOMMENT TO VIEW ISSUE
+    // AngularUniversalModule.forRoot({
+    //   viewsPath: join(process.cwd(), 'dist/browser'),
+    //   bundle: require('../server/main'),
+    //   liveReload: true
+    // }),
   ],
   providers: [
   ]
