@@ -100,6 +100,8 @@
     "roboto-fontface": "0.10.0",
     "rxjs": "~6.5.2",
     "rxjs-compat": "6.5.2",
+    "sequelize": "5.10.0",
+    "sequelize-typescript": "^1.0.0-beta.3",
     "socicon": "3.0.5",
     "tinymce": "5.0.14",
     "tslib": "^1.9.0",
@@ -107,6 +109,7 @@
     "validator": "^11.1.0",
     "videogular2": "^7.0.1",
     "web-animations-js": "2.3.2",
+    "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7",
     "zone.js": "^0.10.2"
   },
