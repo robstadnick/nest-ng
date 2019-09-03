@@ -4,6 +4,7 @@ import { join } from 'path';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './modules/users/user.module';
+import { ServerSideRenderingModule } from './modules/server-side-rendering/server-side-rendering.module';
 
 const domino = require('domino');
 const win = domino.createWindow();
@@ -18,15 +19,16 @@ global['getItem'] = undefined;
 
 @Module({
   imports: [
-    AngularUniversalModule.forRoot({
-      viewsPath: join(process.cwd(), 'dist/browser'),
-      bundle: require('../server/main'),
-      liveReload: true
-    }),
+    // AngularUniversalModule.forRoot({
+    //   viewsPath: join(process.cwd(), 'dist/browser'),
+    //   bundle: require('../server/main'),
+    //   liveReload: true
+    // }),
+    ServerSideRenderingModule,
     AuthModule,
     DatabaseModule,
     UserModule
   ],
   providers: []
 })
-export class ApplicationModule {}
+export class ApplicationModule { }
