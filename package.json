@@ -61,7 +61,7 @@
     "force-ssl-heroku": "^1.0.2",
     "helmet": "^3.18.0",
     "intercom-client": "^2.10.6",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mailgun": "^0.5.0",
     "mailgun-js": "^0.22.0",
     "moment": "^2.24.0",
